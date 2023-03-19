@@ -1,12 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import 'router/app_router.gr.dart';
+
 void main() {
-  runApp(const AppWidget());
+  runApp(AppWidget());
 }
 
 class AppWidget extends StatelessWidget {
-  const AppWidget({super.key});
+  AppWidget({super.key});
+
+  final appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +19,8 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // routerDelegate: AutoRouterDelegate(),
-      // routeInformationParser: AutoRouteInformationParser(),
+      routerDelegate: appRouter.delegate(),
+      routeInformationParser: appRouter.defaultRouteParser(),
     );
   }
 }
