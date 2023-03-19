@@ -21,6 +21,7 @@ class AppWidget extends StatelessWidget {
       ),
       routerDelegate: appRouter.delegate(),
       routeInformationParser: appRouter.defaultRouteParser(),
+      builder: (context, router) => router!,
     );
   }
 }
