@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:saheli_app/app.dart';
 import 'package:saheli_app/ui/screens/chat_screen.dart';
@@ -38,7 +37,7 @@ class _ChatsPageState extends State<ChatsPage> {
         child: StreamChannelListView(
           controller: _channelListController,
           onChannelTap: (channel) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ChatScreen()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChatScreen(channel: channel)));
           },
         ),
       ),

@@ -35,6 +35,6 @@ class AppRoutes {
   static const String home = "home";
   static const String login = "login";
   static const String signup = "signup";
-  static const String chatScreen = "chat";
+  static const String chatScreen = "chat/:channelId";
   static const String chats = "chats";
 }

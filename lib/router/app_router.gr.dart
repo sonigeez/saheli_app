@@ -14,6 +14,7 @@
 import 'package:auto_route/auto_route.dart' as _i4;
 import 'package:auto_route/empty_router_widgets.dart' as _i1;
 import 'package:flutter/material.dart' as _i5;
+import 'package:stream_chat_flutter/stream_chat_flutter.dart' as _i6;
 
 import '../ui/screens/chat_screen.dart' as _i3;
 import '../ui/screens/chats_page.dart' as _i2;
@@ -37,9 +38,13 @@ class AppRouter extends _i4.RootStackRouter {
       );
     },
     Chat.name: (routeData) {
+      final args = routeData.argsAs<ChatArgs>();
       return _i4.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i3.ChatScreen(),
+        child: _i3.ChatScreen(
+          key: args.key,
+          channel: args.channel,
+        ),
       );
     },
   };
@@ -64,7 +69,7 @@ class AppRouter extends _i4.RootStackRouter {
             ),
             _i4.RouteConfig(
               Chat.name,
-              path: 'chat',
+              path: 'chat/:channelId',
               parent: RootRouter.name,
             ),
           ],
@@ -99,12 +104,34 @@ class ChatsRoute extends _i4.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.ChatScreen]
-class Chat extends _i4.PageRouteInfo<void> {
-  const Chat()
-      : super(
+class Chat extends _i4.PageRouteInfo<ChatArgs> {
+  Chat({
+    _i5.Key? key,
+    required _i6.Channel channel,
+  }) : super(
           Chat.name,
-          path: 'chat',
+          path: 'chat/:channelId',
+          args: ChatArgs(
+            key: key,
+            channel: channel,
+          ),
         );
 
   static const String name = 'Chat';
+}
+
+class ChatArgs {
+  const ChatArgs({
+    this.key,
+    required this.channel,
+  });
+
+  final _i5.Key? key;
+
+  final _i6.Channel channel;
+
+  @override
+  String toString() {
+    return 'ChatArgs{key: $key, channel: $channel}';
+  }
 }
