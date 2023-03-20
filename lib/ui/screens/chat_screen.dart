@@ -1,35 +1,25 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:saheli_app/app.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   const ChatScreen({
     super.key,
-    required this.channel,
+    @pathParam this.channelId = "",
+    this.channel,
   });
-  final Channel channel;
-
-  @override
-  State<ChatScreen> createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  // setup channel with client
-
-  @override
-  void initState() {
-    super.initState();
-    // channel setup
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  final String channelId;
+  final Channel? channel;
 
   @override
   Widget build(BuildContext context) {
     return StreamChannel(
-      channel: widget.channel,
+      channel: channel ??
+          context.streamChatClient.channel(
+            'messaging',
+            id: channelId,
+          ),
       child: Scaffold(
         appBar: const StreamChannelHeader(),
         body: Column(

@@ -13,6 +13,16 @@ extension StreamChatContext on BuildContext {
   User? get currentUser => StreamChat.of(this).currentUser;
 }
 
+extension SizeContext on BuildContext {
+  Size get getSize => MediaQuery.of(this).size;
+}
+
+class MyColors {
+  MyColors._();
+
+  static const Color primayColor = Color(0xFF0D92D5);
+}
+
 class StreamChatHelper {
   StreamChatHelper._();
 

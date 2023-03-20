@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:saheli_app/app.dart';
 import 'package:saheli_app/router/app_router.gr.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final streamChatClient = StreamChatClient(
     Strings.streamChatApiKey,
     logLevel: Level.INFO,
   );
 
-  await streamChatClient.connectUser(
-    User(id: "ankit"),
-    streamChatClient.devToken("ankit").rawValue,
-  );
+  FlutterNativeSplash.remove();
 
   runApp(AppWidget(
     streamChatClient: streamChatClient,

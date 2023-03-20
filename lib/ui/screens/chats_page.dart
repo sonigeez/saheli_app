@@ -1,6 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:saheli_app/app.dart';
-import 'package:saheli_app/ui/screens/chat_screen.dart';
+import 'package:saheli_app/router/app_router.gr.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ChatsPage extends StatefulWidget {
@@ -36,9 +37,7 @@ class _ChatsPageState extends State<ChatsPage> {
         onRefresh: _channelListController.refresh,
         child: StreamChannelListView(
           controller: _channelListController,
-          onChannelTap: (channel) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChatScreen(channel: channel)));
-          },
+          onChannelTap: (channel) => context.router.push(ChatScreenRoute(channel: channel)),
         ),
       ),
     );
