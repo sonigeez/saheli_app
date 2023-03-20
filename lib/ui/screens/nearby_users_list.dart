@@ -57,6 +57,7 @@ class UserWidget extends StatelessWidget {
       ],
     });
     await c.watch();
+    // ignore: use_build_context_synchronously
     context.pushRoute(ChatScreenRoute(channel: c));
   }
 
@@ -66,38 +67,67 @@ class UserWidget extends StatelessWidget {
       onTap: () {
         _createChannel(context);
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.all(8),
-        height: 100,
-        width: double.infinity,
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
+      // child: Container(
+      //   decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     borderRadius: BorderRadius.circular(10),
+      //   ),
+      //   margin: const EdgeInsets.all(8),
+      //   height: 100,
+      //   width: double.infinity,
+      //   padding: const EdgeInsets.all(8),
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //     children: [
+      //       Text(
+      //         user.firstname + user.lastname,
+      //         maxLines: 1,
+      //         overflow: TextOverflow.ellipsis,
+      //         style: Theme.of(context).textTheme.bodyMedium,
+      //       ),
+      //       // short note
+      //       Text(
+      //         user.shortDesc,
+      //         maxLines: 3,
+      //         overflow: TextOverflow.ellipsis,
+      //         style: Theme.of(context).textTheme.bodySmall,
+      //       ),
+      //       // distance
+      //       Text(
+      //         "Distance: ${user.distance} Km",
+      //         style: Theme.of(context).textTheme.bodySmall,
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      child: Column(
+        children: [
+          ListTile(
+            leading: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.person),
+            ),
+            title: Text(
               user.firstname + user.lastname,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            // short note
-            Text(
+            subtitle: Text(
               user.shortDesc,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-            // distance
-            Text(
-              "Distance: ${user.distance} Km",
+            trailing: Text(
+              "Distance: ${user.distance.substring(0, 4)} Km",
               style: Theme.of(context).textTheme.bodySmall,
             ),
-          ],
-        ),
+          ),
+          const Divider(
+            height: 1,
+          ),
+        ],
       ),
     );
   }

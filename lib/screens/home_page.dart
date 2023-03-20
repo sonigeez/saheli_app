@@ -98,7 +98,7 @@ class HomePageState extends State<HomePage> {
                 Stack(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.7,
+                      height: MediaQuery.of(context).size.height * 0.64,
                       child: Stack(
                         children: [
                           GoogleMap(
@@ -125,10 +125,12 @@ class HomePageState extends State<HomePage> {
                             },
                             myLocationEnabled: true,
                             myLocationButtonEnabled: false,
-                            markers: {
-                              context.read<HomeScreenProvider>().marker ??
-                                  const Marker(markerId: MarkerId("test"))
-                            },
+                            markers: context
+                                        .read<HomeScreenProvider>()
+                                        .marker !=
+                                    null
+                                ? {context.read<HomeScreenProvider>().marker!}
+                                : {},
                           ),
                           Align(
                             alignment: Alignment.bottomLeft,
@@ -136,6 +138,12 @@ class HomePageState extends State<HomePage> {
                               margin: const EdgeInsets.all(12),
                               decoration: const BoxDecoration(
                                 color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    blurRadius: 5.0,
+                                  ),
+                                ],
                                 shape: BoxShape.circle,
                               ),
                               child: IconButton(
@@ -151,7 +159,7 @@ class HomePageState extends State<HomePage> {
                                 },
                                 icon: const Icon(
                                   Icons.my_location,
-                                  color: Colors.grey,
+                                  color: Colors.blue,
                                 ),
                               ),
                             ),
@@ -165,6 +173,12 @@ class HomePageState extends State<HomePage> {
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5.0,
+                            ),
+                          ],
                         ),
                         child: IconButton(
                           style: ButtonStyle(
@@ -207,9 +221,17 @@ class HomePageState extends State<HomePage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
                   child: Container(
                     decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 0.6,
+                        ),
+                      ],
+                      border: Border.all(color: Colors.grey),
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -236,17 +258,26 @@ class HomePageState extends State<HomePage> {
                             width: 10,
                           ),
                           Expanded(
-                            child: Text(context
-                                    .read<HomeScreenProvider>()
-                                    .getDestinationAddress ??
-                                "Enter Destination"),
+                            child: Text(
+                              context
+                                      .read<HomeScreenProvider>()
+                                      .getDestinationAddress ??
+                                  "Enter Destination",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             width: 10,
                           ),
-                          const Icon(
-                            Icons.search,
-                            color: Colors.grey,
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -256,12 +287,33 @@ class HomePageState extends State<HomePage> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
-                  child: SizedBox(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 0.6,
+                        ),
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
                     height: 50,
                     child: TextField(
                       controller: _shortNoteController,
                       decoration: const InputDecoration(
-                        hintText: 'Enter short Note',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 18),
+                          child: Icon(
+                            Icons.note_add,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                        hintText: 'Enter Short Note',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(6),
@@ -273,18 +325,35 @@ class HomePageState extends State<HomePage> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    if (context.read<HomeScreenProvider>().destinationLocation != null &&
+                    if (context
+                                .read<HomeScreenProvider>()
+                                .destinationLocation !=
+                            null &&
                         _shortNoteController.text.isNotEmpty) {
                       // upload your location.
-                      await LocationServices.uploadLocation(context.read<HomeScreenProvider>().currentLocation!);
+                      await LocationServices.uploadLocation(
+                          context.read<HomeScreenProvider>().currentLocation!);
                       // upload short note.
-                      await LocationServices.uploadShortNote(_shortNoteController.text);
+                      await LocationServices.uploadShortNote(
+                          _shortNoteController.text);
                       // find saheli for youself.
                       context.pushRoute(const NearmeusersRoute());
                       // jump to next page where everything uploads and happens next.
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text(
+                              "Please make sure you have fill all the fields")));
                     }
                   },
-                  child: const Text('Find Saheli'),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text('Find Saheli'),
+                  ),
                 ),
                 const SizedBox(height: 20),
               ],
