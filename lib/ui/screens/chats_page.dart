@@ -37,7 +37,8 @@ class _ChatsPageState extends State<ChatsPage> {
         onRefresh: _channelListController.refresh,
         child: StreamChannelListView(
           controller: _channelListController,
-          onChannelTap: (channel) => context.router.push(ChatScreenRoute(channel: channel)),
+          onChannelTap: (channel) =>
+              context.router.push(ChatScreenRoute(channel: channel)),
         ),
       ),
     );

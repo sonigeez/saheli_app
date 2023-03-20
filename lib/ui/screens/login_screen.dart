@@ -76,7 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       // text for login on left side
                       Text(
                         "Log-In",
-                        style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Colors.black),
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall!
+                            .copyWith(color: Colors.black),
                       ),
                       // phone number
                       TextFormField(

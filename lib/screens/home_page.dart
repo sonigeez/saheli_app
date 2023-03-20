@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:saheli_app/app.dart';
 import 'package:saheli_app/notifiers/home_screen_provider.dart';
 import 'package:saheli_app/notifiers/user_notifier.dart';
 import 'package:saheli_app/router/app_router.gr.dart';
@@ -65,11 +64,13 @@ class HomePageState extends State<HomePage> {
   }
 
   _moveCameraToCurrentLocation() {
-    _mapController!.animateCamera(CameraUpdate.newLatLngZoom(context.read<HomeScreenProvider>().currentLocation!, 15));
+    _mapController!.animateCamera(CameraUpdate.newLatLngZoom(
+        context.read<HomeScreenProvider>().currentLocation!, 15));
   }
 
   _getCurrentLocation() async {
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
 
     await Geolocator.requestPermission();
     Provider.of<HomeScreenProvider>(context, listen: false)
@@ -81,9 +82,10 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeScreenProvider>(builder: (context, value, child) {
-      if (context.read<HomeScreenProvider>().marker != null && _mapController != null) {
-        _mapController!
-            .animateCamera(CameraUpdate.newLatLngZoom(context.read<HomeScreenProvider>().destinationLocation!, 12));
+      if (context.read<HomeScreenProvider>().marker != null &&
+          _mapController != null) {
+        _mapController!.animateCamera(CameraUpdate.newLatLngZoom(
+            context.read<HomeScreenProvider>().destinationLocation!, 12));
       }
       return SafeArea(
         child: Scaffold(
@@ -102,21 +104,29 @@ class HomePageState extends State<HomePage> {
                             onCameraMove: (position) {},
                             polylines: <Polyline>{
                               context.read<HomeScreenProvider>().polyline ??
-                                  const Polyline(polylineId: PolylineId("test")),
+                                  const Polyline(
+                                      polylineId: PolylineId("test")),
                             },
-                            initialCameraPosition: const CameraPosition(target: LatLng(0, 0), zoom: 13),
-                            onMapCreated: (GoogleMapController controller) async {
+                            initialCameraPosition: const CameraPosition(
+                                target: LatLng(0, 0), zoom: 13),
+                            onMapCreated:
+                                (GoogleMapController controller) async {
                               _mapController = controller;
-                              final provider = context.read<HomeScreenProvider>();
+                              final provider =
+                                  context.read<HomeScreenProvider>();
                               if (provider.currentLocation == null) {
                                 await _getCurrentLocation();
                               }
                             },
-                            gestureRecognizers: {Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer())},
+                            gestureRecognizers: {
+                              Factory<OneSequenceGestureRecognizer>(
+                                  () => EagerGestureRecognizer())
+                            },
                             myLocationEnabled: true,
                             myLocationButtonEnabled: false,
                             markers: {
-                              context.read<HomeScreenProvider>().marker ?? const Marker(markerId: MarkerId("test"))
+                              context.read<HomeScreenProvider>().marker ??
+                                  const Marker(markerId: MarkerId("test"))
                             },
                           ),
                           Align(
@@ -129,7 +139,8 @@ class HomePageState extends State<HomePage> {
                               ),
                               child: IconButton(
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.white),
                                   shape: MaterialStateProperty.all(
                                     const CircleBorder(),
                                   ),
@@ -147,30 +158,30 @@ class HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                            shape: MaterialStateProperty.all(
+                              const CircleBorder(),
+                            ),
                           ),
-                          child: IconButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(Colors.white),
-                              shape: MaterialStateProperty.all(
-                                const CircleBorder(),
-                              ),
-                            ),
-                            onPressed: () {
-                              _key.currentState!.openDrawer();
-                            },
-                            icon: const Icon(
-                              Icons.menu,
-                              color: Colors.grey,
-                            ),
+                          onPressed: () {
+                            _key.currentState!.openDrawer();
+                          },
+                          icon: const Icon(
+                            Icons.menu,
+                            color: Colors.grey,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -209,7 +220,8 @@ class HomePageState extends State<HomePage> {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 18, vertical: 8),
                             child: Container(
                               height: 10,
                               width: 10,
@@ -223,8 +235,10 @@ class HomePageState extends State<HomePage> {
                             width: 10,
                           ),
                           Expanded(
-                            child:
-                                Text(context.read<HomeScreenProvider>().getDestinationAddress ?? "Enter Destination"),
+                            child: Text(context
+                                    .read<HomeScreenProvider>()
+                                    .getDestinationAddress ??
+                                "Enter Destination"),
                           ),
                           const SizedBox(
                             width: 10,
@@ -239,11 +253,20 @@ class HomePageState extends State<HomePage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
-                  child: TextField(
-                    controller: _shortNoteController,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter short Note',
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
+                  child: SizedBox(
+                    height: 50,
+                    child: TextField(
+                      controller: _shortNoteController,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter short Note',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(6),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -282,6 +305,7 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.7,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DrawerHeader(
               decoration: const BoxDecoration(),
@@ -324,8 +348,11 @@ class AppDrawer extends StatelessWidget {
             onTap: () => context.pushRoute(const ChatListScreenRoute()),
           ),
           ListTile(
-            leading: const Icon(Icons.emergency),
-            title: const Text('Emergency'),
+            leading: const Icon(Icons.emergency, color: Colors.red),
+            title: const Text(
+              'Emergency',
+              style: TextStyle(color: Colors.red),
+            ),
             onTap: () {},
           ),
           const Spacer(),

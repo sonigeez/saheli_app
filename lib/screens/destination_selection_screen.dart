@@ -54,7 +54,8 @@ class CustomSearchScaffoldState extends PlacesAutocompleteState {
           provider
             ..setDestinationAddress(p.description!)
             ..addMarker(LatLng(geometry.location.lat, geometry.location.lng))
-            ..setDestinationLocation(LatLng(geometry.location.lat, geometry.location.lng));
+            ..setDestinationLocation(
+                LatLng(geometry.location.lat, geometry.location.lng));
 
           // ..setDestinationLocation(
           // LatLng(geometry.location.lat, geometry.location.lng));
