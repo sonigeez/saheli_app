@@ -45,10 +45,21 @@ class AppRouter extends _i11.RootStackRouter {
         child: const _i2.OnboardingScreen(),
       );
     },
+    PinCodeVerificationRoute.name: (routeData) {
+      final args = routeData.argsAs<PinCodeVerificationRouteArgs>(
+          orElse: () => const PinCodeVerificationRouteArgs());
+      return _i11.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i3.PinCodeVerificationScreen(
+          key: args.key,
+          phoneNumber: args.phoneNumber,
+        ),
+      );
+    },
     HomeRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i3.HomePage(),
+        child: const _i4.HomePage(),
       );
     },
     DestinationSelectionRoute.name: (routeData) {
@@ -56,25 +67,25 @@ class AppRouter extends _i11.RootStackRouter {
           orElse: () => const DestinationSelectionRouteArgs());
       return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i4.DestinationSelectionPage(key: args.key),
+        child: _i5.DestinationSelectionPage(key: args.key),
       );
     },
     LoginRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i5.LoginScreen(),
+        child: const _i7.NearbyUsersList(),
       );
     },
     SignupRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i6.SignupScreen(),
+        child: const _i8.SignupScreen(),
       );
     },
     ChatListScreenRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i7.ChatsPage(),
+        child: const _i9.ChatsPage(),
       );
     },
     ChatScreenRoute.name: (routeData) {
@@ -87,7 +98,7 @@ class AppRouter extends _i11.RootStackRouter {
               )));
       return _i11.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i8.ChatScreen(
+        child: _i10.ChatScreen(
           key: args.key,
           channelId: args.channelId,
           channel: args.channel,
@@ -187,11 +198,46 @@ class RootRouter extends _i11.PageRouteInfo<void> {
 class OnboardingScreen extends _i11.PageRouteInfo<void> {
   const OnboardingScreen()
       : super(
-          OnboardingScreen.name,
-          path: '',
+          OnboardRoute.name,
+          path: 'onboarding-screen',
         );
 
-  static const String name = 'OnboardingScreen';
+  static const String name = 'OnboardRoute';
+}
+
+/// generated route for
+/// [_i3.PinCodeVerificationScreen]
+class PinCodeVerificationRoute
+    extends _i11.PageRouteInfo<PinCodeVerificationRouteArgs> {
+  PinCodeVerificationRoute({
+    _i12.Key? key,
+    String? phoneNumber,
+  }) : super(
+          PinCodeVerificationRoute.name,
+          path: 'otp-verification',
+          args: PinCodeVerificationRouteArgs(
+            key: key,
+            phoneNumber: phoneNumber,
+          ),
+        );
+
+  static const String name = 'PinCodeVerificationRoute';
+}
+
+class PinCodeVerificationRouteArgs {
+  const PinCodeVerificationRouteArgs({
+    this.key,
+    this.phoneNumber,
+  });
+
+  final _i12.Key? key;
+
+  final String? phoneNumber;
+
+  @override
+  String toString() {
+    return 'PinCodeVerificationRouteArgs{key: $key, phoneNumber: $phoneNumber}';
+  }
 }
 
 /// generated route for
@@ -207,7 +253,7 @@ class HomeRoute extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.DestinationSelectionPage]
+/// [_i5.DestinationSelectionPage]
 class DestinationSelectionRoute
     extends _i11.PageRouteInfo<DestinationSelectionRouteArgs> {
   DestinationSelectionRoute({_i12.Key? key})

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:saheli_app/repo/networking_urls.dart';
 
-class NetwordManager {
-  final Dio _dio = Dio();
+class NetworkManager {
+  static final dio = Dio(BaseOptions(baseUrl: NetworkingUrls.baseUrl));
 }
