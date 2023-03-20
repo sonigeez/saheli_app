@@ -35,7 +35,8 @@ class HomeScreenProvider extends ChangeNotifier {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       kGoogleApiKey, // Google Maps API Key
       PointLatLng(currentLocation!.latitude, currentLocation!.longitude),
-      PointLatLng(_destinationLocation!.latitude, _destinationLocation!.longitude),
+      PointLatLng(
+          _destinationLocation!.latitude, _destinationLocation!.longitude),
       travelMode: TravelMode.transit,
     );
 
@@ -77,7 +78,9 @@ class HomeScreenProvider extends ChangeNotifier {
   }
 
   void addMarker(LatLng? location) {
-    marker = Marker(markerId: MarkerId(Random().nextInt(999).toString()), position: location!);
+    marker = Marker(
+        markerId: MarkerId(Random().nextInt(999).toString()),
+        position: location!);
     notifyListeners();
   }
 }

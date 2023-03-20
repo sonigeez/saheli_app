@@ -30,7 +30,8 @@ class StreamChatHelper {
     if (channel.name != null) {
       return channel.name!;
     } else if (channel.state?.members.isNotEmpty ?? false) {
-      final otherUser = channel.state!.members.firstWhere((element) => element.userId != currentUser.id);
+      final otherUser = channel.state!.members
+          .firstWhere((element) => element.userId != currentUser.id);
       return otherUser.user!.name;
     } else {
       return "NA";

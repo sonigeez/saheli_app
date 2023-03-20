@@ -70,7 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       // text for login on left side
                       Text(
                         "Log-In",
-                        style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Colors.black),
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall!
+                            .copyWith(color: Colors.black),
                       ),
                       // phone number
                       TextFormField(
@@ -94,10 +97,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (_formKey.currentState!.validate()) {}
                         },
                         style: ElevatedButton.styleFrom(
-                            fixedSize: Size(size.width * .9, 50), backgroundColor: MyColors.primayColor),
+                            fixedSize: Size(size.width * .9, 50),
+                            backgroundColor: MyColors.primayColor),
                         child: Text(
                           "Get OTP",
-                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(color: Colors.white),
                         ),
                       ),
 
@@ -111,7 +118,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             TextSpan(
                               text: "Sign Up",
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: MyColors.primayColor),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge!
+                                  .copyWith(color: MyColors.primayColor),
                             ),
                           ],
                         ),

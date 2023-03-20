@@ -5,9 +5,9 @@ import 'package:saheli_app/router/app_router.gr.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:provider/provider.dart';
 import 'notifiers/home_screen_provider.dart';
+import 'notifiers/saheli_tracking_page.dart';
 
 final appRouter = AppRouter();
-
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -19,15 +19,19 @@ void main() async {
 
   FlutterNativeSplash.remove();
 
-
-
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
-  ], child: AppWidget(
-    streamChatClient: streamChatClient,
-  )));
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => HomeScreenProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SaheliTrackingPageNotifier(),
+        ),
+      ],
+      child: AppWidget(
+        streamChatClient: streamChatClient,
+      )));
 }
-
 
 class AppWidget extends StatelessWidget {
   const AppWidget({

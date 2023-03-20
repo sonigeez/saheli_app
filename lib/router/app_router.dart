@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:saheli_app/screens/live_location_travel.dart';
+import 'package:saheli_app/screens/recommended_places.dart';
 import 'package:saheli_app/ui/screens/chat_screen.dart';
 import 'package:saheli_app/ui/screens/chats_page.dart';
 import 'package:saheli_app/ui/screens/login_screen.dart';
@@ -19,9 +21,10 @@ import '../screens/destination_selection_screen.dart';
         AutoRoute(page: OnboardingScreen, initial: true),
         AutoRoute(page: HomePage, path: AppRoutes.homeScreen),
         AutoRoute(
-            page: DestinationSelectionPage,
-            path: AppRoutes.destinationSelection,),
-            AutoRoute(
+          page: DestinationSelectionPage,
+          path: AppRoutes.destinationSelection,
+        ),
+        AutoRoute(
           page: LoginScreen,
           path: AppRoutes.login,
           name: "LoginRoute",
@@ -40,6 +43,16 @@ import '../screens/destination_selection_screen.dart';
           page: ChatScreen,
           name: "ChatScreenRoute",
           path: AppRoutes.chatScreen,
+        ),
+        AutoRoute(
+          page: SaheliTrackingPage,
+          name: "SaheliTrackingRoute",
+          path: AppRoutes.saheliTracking,
+        ),
+        AutoRoute(
+          page: RecommedndePlacesScreen,
+          name: "RecommendedPlacesRoute",
+          path: AppRoutes.recommendedPlaces,
         ),
       ],
     ),
@@ -60,4 +73,6 @@ class AppRoutes {
   static const String splashScreen = "splash";
   static const String chatScreen = "chat/:channelId";
   static const String chats = "chat_list";
+  static const String saheliTracking = "saheli-tracking";
+  static const String recommendedPlaces = "recommended-places";
 }
