@@ -27,7 +27,11 @@ class AppRouter extends _i4.RootStackRouter {
     OnboardingScreen.name: (routeData) {
       return _i4.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i1.OnboardingScreen(),
+        child: _i5.ChatScreen(
+          key: args.key,
+          channelId: args.channelId,
+          channel: args.channel,
+        ),
       );
     },
     HomeRoute.name: (routeData) {
@@ -51,7 +55,6 @@ class AppRouter extends _i4.RootStackRouter {
         _i4.RouteConfig(
           OnboardingScreen.name,
           path: '/',
-        ),
         _i4.RouteConfig(
           HomeRoute.name,
           path: '/home-screen',
@@ -68,7 +71,7 @@ class AppRouter extends _i4.RootStackRouter {
 class OnboardingScreen extends _i4.PageRouteInfo<void> {
   const OnboardingScreen()
       : super(
-          OnboardingScreen.name,
+          RootRouter.name,
           path: '/',
         );
 
