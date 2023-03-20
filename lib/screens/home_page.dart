@@ -70,10 +70,9 @@ class HomePageState extends State<HomePage> {
   }
 
   _getCurrentLocation() async {
+    await Geolocator.requestPermission();
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-
-    await Geolocator.requestPermission();
     Provider.of<HomeScreenProvider>(context, listen: false)
         .setCurrentLocation(LatLng(position.latitude, position.longitude));
 
