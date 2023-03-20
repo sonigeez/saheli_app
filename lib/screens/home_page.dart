@@ -21,7 +21,6 @@ class HomePage extends StatefulWidget {
 const kGoogleApiKey = 'AIzaSyBPbqIkJ2zzLtlOW12omt67Puy845O5oBA';
 
 class HomePageState extends State<HomePage> {
-  // LatLng? _currentLocation;
   GoogleMapController? _mapController;
   late TextEditingController _controller;
   late TextEditingController _shortNoteController;
@@ -113,8 +112,6 @@ class HomePageState extends State<HomePage> {
           desiredAccuracy: LocationAccuracy.high);
 
       await Geolocator.requestPermission();
-      // _currentLocation = LatLng(position.latitude, position.longitude);
-      // ignore: use_build_context_synchronously
       Provider.of<HomeScreenProvider>(context, listen: false)
           .setCurrentLocation(LatLng(position.latitude, position.longitude));
 
@@ -127,15 +124,6 @@ class HomePageState extends State<HomePage> {
         _mapController!.animateCamera(CameraUpdate.newLatLngZoom(
             context.read<HomeScreenProvider>().destinationLocation!, 15));
       }
-      // if (context.read<HomeScreenProvider>().currentLocation != null &&
-      //     context.read<HomeScreenProvider>().destinationLocation != null) {
-      //   _createPolylines(
-      //     context.read<HomeScreenProvider>().currentLocation!.latitude,
-      //     context.read<HomeScreenProvider>().currentLocation!.longitude,
-      //     context.read<HomeScreenProvider>().destinationLocation!.latitude,
-      //     context.read<HomeScreenProvider>().destinationLocation!.longitude,
-      //   );
-      // }
       return SafeArea(
         child: Scaffold(
           key: _key,
