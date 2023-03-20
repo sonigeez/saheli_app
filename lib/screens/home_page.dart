@@ -8,6 +8,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:saheli_app/app.dart';
 import 'package:saheli_app/notifiers/home_screen_provider.dart';
 import 'package:saheli_app/router/app_router.gr.dart';
 
@@ -18,63 +19,11 @@ class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
 }
 
-const kGoogleApiKey = 'AIzaSyBPbqIkJ2zzLtlOW12omt67Puy845O5oBA';
-
 class HomePageState extends State<HomePage> {
   GoogleMapController? _mapController;
   late TextEditingController _controller;
   late TextEditingController _shortNoteController;
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
-
-  // Object for PolylinePoints
-  late PolylinePoints polylinePoints;
-
-// List of coordinates to join
-  List<LatLng> polylineCoordinates = [];
-
-// Map storing polylines created by connecting two points
-
-  // Create the polylines for showing the route between two places
-
-  _createPolylines(
-    double startLatitude,
-    double startLongitude,
-    double destinationLatitude,
-    double destinationLongitude,
-  ) async {
-    // Initializing PolylinePoints
-    polylinePoints = PolylinePoints();
-
-    // Generating the list of coordinates to be used for
-    // drawing the polylines
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      kGoogleApiKey, // Google Maps API Key
-      PointLatLng(startLatitude, startLongitude),
-      PointLatLng(destinationLatitude, destinationLongitude),
-      travelMode: TravelMode.transit,
-    );
-
-    // Adding the coordinates to the list
-    if (result.points.isNotEmpty) {
-      for (var point in result.points) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      }
-    }
-
-    // Defining an ID
-    PolylineId id = const PolylineId('poly');
-
-    // Initializing Polyline
-    Polyline polyline = Polyline(
-      polylineId: id,
-      color: Colors.red,
-      points: polylineCoordinates,
-      width: 3,
-    );
-    context.read<HomeScreenProvider>().setPolyline(polyline);
-    // Adding the polyline to the map
-    // polylines[id] = polyline;
-  }
 
   @override
   void initState() {
@@ -100,29 +49,26 @@ class HomePageState extends State<HomePage> {
     await Geolocator.requestPermission();
   }
 
+  _moveCameraToCurrentLocation() {
+    _mapController!.animateCamera(CameraUpdate.newLatLngZoom(context.read<HomeScreenProvider>().currentLocation!, 15));
+  }
+
+  _getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    await Geolocator.requestPermission();
+    Provider.of<HomeScreenProvider>(context, listen: false)
+        .setCurrentLocation(LatLng(position.latitude, position.longitude));
+
+    _moveCameraToCurrentLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
-    _moveCameraToCurrentLocation() {
-      _mapController!.animateCamera(CameraUpdate.newLatLngZoom(
-          context.read<HomeScreenProvider>().currentLocation!, 15));
-    }
-
-    _getCurrentLocation() async {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-
-      await Geolocator.requestPermission();
-      Provider.of<HomeScreenProvider>(context, listen: false)
-          .setCurrentLocation(LatLng(position.latitude, position.longitude));
-
-      _moveCameraToCurrentLocation();
-    }
-
     return Consumer<HomeScreenProvider>(builder: (context, value, child) {
-      if (context.read<HomeScreenProvider>().markers.isNotEmpty &&
-          _mapController != null) {
-        _mapController!.animateCamera(CameraUpdate.newLatLngZoom(
-            context.read<HomeScreenProvider>().destinationLocation!, 15));
+      if (context.read<HomeScreenProvider>().marker != null && _mapController != null) {
+        _mapController!
+            .animateCamera(CameraUpdate.newLatLngZoom(context.read<HomeScreenProvider>().destinationLocation!, 12));
       }
       return SafeArea(
         child: Scaffold(
@@ -140,53 +86,23 @@ class HomePageState extends State<HomePage> {
                           GoogleMap(
                             onCameraMove: (position) {},
                             polylines: <Polyline>{
-                              // ...polylines.values,
-                              ...context
-                                  .read<HomeScreenProvider>()
-                                  .polylines
-                                  .values,
+                              context.read<HomeScreenProvider>().polyline ??
+                                  const Polyline(polylineId: PolylineId("test")),
                             },
-                            initialCameraPosition: const CameraPosition(
-                                target: LatLng(0, 0), zoom: 13),
-                            onMapCreated:
-                                (GoogleMapController controller) async {
+                            initialCameraPosition: const CameraPosition(target: LatLng(0, 0), zoom: 13),
+                            onMapCreated: (GoogleMapController controller) async {
                               _mapController = controller;
-                              _getCurrentLocation();
-                              if (context
-                                          .read<HomeScreenProvider>()
-                                          .currentLocation !=
-                                      null &&
-                                  context
-                                          .read<HomeScreenProvider>()
-                                          .destinationLocation !=
-                                      null) {
-                                await _createPolylines(
-                                  context
-                                      .read<HomeScreenProvider>()
-                                      .currentLocation!
-                                      .latitude,
-                                  context
-                                      .read<HomeScreenProvider>()
-                                      .currentLocation!
-                                      .longitude,
-                                  context
-                                      .read<HomeScreenProvider>()
-                                      .destinationLocation!
-                                      .latitude,
-                                  context
-                                      .read<HomeScreenProvider>()
-                                      .destinationLocation!
-                                      .longitude,
-                                );
+                              final provider = context.read<HomeScreenProvider>();
+                              if (provider.currentLocation == null) {
+                                await _getCurrentLocation();
                               }
                             },
-                            gestureRecognizers: {
-                              Factory<OneSequenceGestureRecognizer>(
-                                  () => EagerGestureRecognizer())
-                            },
+                            gestureRecognizers: {Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer())},
                             myLocationEnabled: true,
                             myLocationButtonEnabled: false,
-                            markers: context.read<HomeScreenProvider>().markers,
+                            markers: {
+                              context.read<HomeScreenProvider>().marker ?? const Marker(markerId: MarkerId("test"))
+                            },
                           ),
                           Align(
                             alignment: Alignment.bottomLeft,
@@ -198,8 +114,7 @@ class HomePageState extends State<HomePage> {
                               ),
                               child: IconButton(
                                 style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.white),
+                                  backgroundColor: MaterialStateProperty.all(Colors.white),
                                   shape: MaterialStateProperty.all(
                                     const CircleBorder(),
                                   ),
@@ -226,8 +141,7 @@ class HomePageState extends State<HomePage> {
                           ),
                           child: IconButton(
                             style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.white),
+                              backgroundColor: MaterialStateProperty.all(Colors.white),
                               shape: MaterialStateProperty.all(
                                 const CircleBorder(),
                               ),
@@ -263,8 +177,7 @@ class HomePageState extends State<HomePage> {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 18, vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                             child: Container(
                               height: 10,
                               width: 10,
@@ -278,10 +191,8 @@ class HomePageState extends State<HomePage> {
                             width: 10,
                           ),
                           Expanded(
-                            child: Text(context
-                                    .read<HomeScreenProvider>()
-                                    .getDestinationAddress ??
-                                "Enter Destination"),
+                            child:
+                                Text(context.read<HomeScreenProvider>().getDestinationAddress ?? "Enter Destination"),
                           ),
                           const SizedBox(
                             width: 10,
@@ -296,8 +207,7 @@ class HomePageState extends State<HomePage> {
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
                   child: TextField(
                     controller: _shortNoteController,
                     decoration: const InputDecoration(
@@ -307,10 +217,7 @@ class HomePageState extends State<HomePage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (context
-                                .read<HomeScreenProvider>()
-                                .destinationLocation !=
-                            null &&
+                    if (context.read<HomeScreenProvider>().destinationLocation != null &&
                         _shortNoteController.text.isNotEmpty) {}
                   },
                   child: const Text('Find Saheli'),

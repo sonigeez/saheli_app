@@ -7,9 +7,8 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
+import 'package:saheli_app/notifiers/home_screen_provider.dart';
 import 'package:uuid/uuid.dart';
-
-import '../notifiers/home_screen_provider.dart';
 
 const kGoogleApiKey = 'AIzaSyBPbqIkJ2zzLtlOW12omt67Puy845O5oBA';
 
@@ -51,15 +50,19 @@ class CustomSearchScaffoldState extends PlacesAutocompleteState {
 
           final detail = await places.getDetailsByPlaceId(p.placeId!);
           final geometry = detail.result.geometry!;
+          final provider = context.read<HomeScreenProvider>();
+          provider
+            ..setDestinationAddress(p.description!)
+            ..addMarker(LatLng(geometry.location.lat, geometry.location.lng))
+            ..setDestinationLocation(LatLng(geometry.location.lat, geometry.location.lng));
 
-          context.read<HomeScreenProvider>().setDestinationLocation(
-              LatLng(geometry.location.lat, geometry.location.lng));
-          context
-              .read<HomeScreenProvider>()
-              .addMarker(LatLng(geometry.location.lat, geometry.location.lng));
-          context
-              .read<HomeScreenProvider>()
-              .setDestinationAddress(p.description!);
+          // ..setDestinationLocation(
+          // LatLng(geometry.location.lat, geometry.location.lng));
+
+          // ..addMarker();
+          // context
+          //     .read<HomeScreenProvider>()
+          //     .setDestinationAddress(p.description!);
           context.router.pop();
         },
         logo: Row(
