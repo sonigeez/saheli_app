@@ -11,55 +11,21 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:auto_route/empty_router_widgets.dart' as _i1;
-import 'package:flutter/material.dart' as _i7;
-import 'package:stream_chat_flutter/stream_chat_flutter.dart' as _i8;
+import 'package:auto_route/auto_route.dart' as _i4;
+import 'package:flutter/material.dart' as _i5;
 
-import '../ui/screens/chat_screen.dart' as _i5;
-import '../ui/screens/chats_page.dart' as _i4;
-import '../ui/screens/login_screen.dart' as _i2;
-import '../ui/screens/signup_screen.dart' as _i3;
+import '../screens/destination_selection_screen.dart' as _i3;
+import '../screens/home_page.dart' as _i2;
+import '../screens/onboarding_screen.dart' as _i1;
 
-class AppRouter extends _i6.RootStackRouter {
-  AppRouter([_i7.GlobalKey<_i7.NavigatorState>? navigatorKey])
+class AppRouter extends _i4.RootStackRouter {
+  AppRouter([_i5.GlobalKey<_i5.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i6.PageFactory> pagesMap = {
-    RootRouter.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const _i1.EmptyRouterPage(),
-      );
-    },
-    LoginRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const _i2.LoginScreen(),
-      );
-    },
-    SignupRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const _i3.SignupScreen(),
-      );
-    },
-    ChatListScreenRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const _i4.ChatsPage(),
-      );
-    },
-    ChatScreenRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<ChatScreenRouteArgs>(
-          orElse: () => ChatScreenRouteArgs(
-                  channelId: pathParams.getString(
-                'channelId',
-                "",
-              )));
-      return _i6.MaterialPageX<dynamic>(
+  final Map<String, _i4.PageFactory> pagesMap = {
+    OnboardingScreen.name: (routeData) {
+      return _i4.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i5.ChatScreen(
           key: args.key,
@@ -68,131 +34,83 @@ class AppRouter extends _i6.RootStackRouter {
         ),
       );
     },
+    HomeRoute.name: (routeData) {
+      return _i4.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const _i2.HomePage(),
+      );
+    },
+    DestinationSelectionRoute.name: (routeData) {
+      final args = routeData.argsAs<DestinationSelectionRouteArgs>(
+          orElse: () => const DestinationSelectionRouteArgs());
+      return _i4.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i3.DestinationSelectionPage(key: args.key),
+      );
+    },
   };
 
   @override
-  List<_i6.RouteConfig> get routes => [
-        _i6.RouteConfig(
-          RootRouter.name,
+  List<_i4.RouteConfig> get routes => [
+        _i4.RouteConfig(
+          OnboardingScreen.name,
           path: '/',
-          children: [
-            _i6.RouteConfig(
-              '#redirect',
-              path: '',
-              parent: RootRouter.name,
-              redirectTo: 'login',
-              fullMatch: true,
-            ),
-            _i6.RouteConfig(
-              LoginRoute.name,
-              path: 'login',
-              parent: RootRouter.name,
-            ),
-            _i6.RouteConfig(
-              SignupRoute.name,
-              path: 'signup',
-              parent: RootRouter.name,
-            ),
-            _i6.RouteConfig(
-              ChatListScreenRoute.name,
-              path: 'chat_list',
-              parent: RootRouter.name,
-            ),
-            _i6.RouteConfig(
-              ChatScreenRoute.name,
-              path: 'chat/:channelId',
-              parent: RootRouter.name,
-            ),
-          ],
-        )
+        _i4.RouteConfig(
+          HomeRoute.name,
+          path: '/home-screen',
+        ),
+        _i4.RouteConfig(
+          DestinationSelectionRoute.name,
+          path: '/destination-selection',
+        ),
       ];
 }
 
 /// generated route for
-/// [_i1.EmptyRouterPage]
-class RootRouter extends _i6.PageRouteInfo<void> {
-  const RootRouter({List<_i6.PageRouteInfo>? children})
+/// [_i1.OnboardingScreen]
+class OnboardingScreen extends _i4.PageRouteInfo<void> {
+  const OnboardingScreen()
       : super(
           RootRouter.name,
           path: '/',
-          initialChildren: children,
         );
 
-  static const String name = 'RootRouter';
+  static const String name = 'OnboardingScreen';
 }
 
 /// generated route for
-/// [_i2.LoginScreen]
-class LoginRoute extends _i6.PageRouteInfo<void> {
-  const LoginRoute()
+/// [_i2.HomePage]
+class HomeRoute extends _i4.PageRouteInfo<void> {
+  const HomeRoute()
       : super(
-          LoginRoute.name,
-          path: 'login',
+          HomeRoute.name,
+          path: '/home-screen',
         );
 
-  static const String name = 'LoginRoute';
+  static const String name = 'HomeRoute';
 }
 
 /// generated route for
-/// [_i3.SignupScreen]
-class SignupRoute extends _i6.PageRouteInfo<void> {
-  const SignupRoute()
+/// [_i3.DestinationSelectionPage]
+class DestinationSelectionRoute
+    extends _i4.PageRouteInfo<DestinationSelectionRouteArgs> {
+  DestinationSelectionRoute({_i5.Key? key})
       : super(
-          SignupRoute.name,
-          path: 'signup',
+          DestinationSelectionRoute.name,
+          path: '/destination-selection',
+          args: DestinationSelectionRouteArgs(key: key),
         );
 
-  static const String name = 'SignupRoute';
+  static const String name = 'DestinationSelectionRoute';
 }
 
-/// generated route for
-/// [_i4.ChatsPage]
-class ChatListScreenRoute extends _i6.PageRouteInfo<void> {
-  const ChatListScreenRoute()
-      : super(
-          ChatListScreenRoute.name,
-          path: 'chat_list',
-        );
+class DestinationSelectionRouteArgs {
+  const DestinationSelectionRouteArgs({this.key});
 
-  static const String name = 'ChatListScreenRoute';
-}
-
-/// generated route for
-/// [_i5.ChatScreen]
-class ChatScreenRoute extends _i6.PageRouteInfo<ChatScreenRouteArgs> {
-  ChatScreenRoute({
-    _i7.Key? key,
-    String channelId = "",
-    _i8.Channel? channel,
-  }) : super(
-          ChatScreenRoute.name,
-          path: 'chat/:channelId',
-          args: ChatScreenRouteArgs(
-            key: key,
-            channelId: channelId,
-            channel: channel,
-          ),
-          rawPathParams: {'channelId': channelId},
-        );
-
-  static const String name = 'ChatScreenRoute';
-}
-
-class ChatScreenRouteArgs {
-  const ChatScreenRouteArgs({
-    this.key,
-    this.channelId = "",
-    this.channel,
-  });
-
-  final _i7.Key? key;
-
-  final String channelId;
-
-  final _i8.Channel? channel;
+  final _i5.Key? key;
 
   @override
   String toString() {
-    return 'ChatScreenRouteArgs{key: $key, channelId: $channelId, channel: $channel}';
+    return 'DestinationSelectionRouteArgs{key: $key}';
   }
 }

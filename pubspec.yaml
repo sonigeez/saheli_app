@@ -1,6 +1,6 @@
 name: saheli_app
 description: A new Flutter project.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.ubsev
 
 version: 1.0.0+1
 
@@ -10,8 +10,19 @@ environment:
 dependencies:
   auto_route: ^5.0.4
   cupertino_icons: ^1.0.2
+  dio: ^5.0.3
   flutter:
     sdk: flutter
+  flutter_google_places_hoc081098: ^1.2.0
+  flutter_polyline_points: ^1.0.0
+  geolocator: ^9.0.2
+  google_api_headers: ^1.5.0+1
+  google_maps_flutter: ^2.2.5
+  google_maps_webservice: ^0.0.19
+  permission_handler: ^9.0.1
+  provider: ^6.0.5
+  shared_preferences: ^2.0.18
+  uuid: ^3.0.7
   flutter_native_splash: ^2.2.19
   stream_chat_flutter: ^5.3.0
 
@@ -40,5 +51,6 @@ flutter_native_splash:
 
 flutter:
   uses-material-design: true
+
   assets:
-    - assets/
+    - assets/images/

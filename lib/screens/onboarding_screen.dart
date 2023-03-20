@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import '../router/app_router.gr.dart';
 import '../utils/onboarding_content.dart';
 import '../utils/size_config.dart';
 
@@ -11,6 +13,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late PageController _controller;
+  AppRouter appRouter = AppRouter();
 
   @override
   void initState() {
@@ -48,8 +51,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     SizeConfig().init(context);
     double width = SizeConfig.screenW!;
     double height = SizeConfig.screenH!;
-    int currentPageIndex = 0;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -117,8 +118,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ? Padding(
                           padding: const EdgeInsets.all(30),
                           child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text("START"),
+                            onPressed: () {
+                              // AppRouter().popAndPush()
+                              // appRouter.push(const HomeRoute());
+                              context.router.popAndPush(const HomeRoute());
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
@@ -132,6 +136,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               textStyle:
                                   TextStyle(fontSize: (width <= 550) ? 13 : 17),
                             ),
+                            child: const Text("START"),
                           ),
                         )
                       : Padding(
@@ -143,16 +148,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 onPressed: () {
                                   _controller.jumpToPage(2);
                                 },
-                                child: const Text(
-                                  "SKIP",
-                                  style: TextStyle(color: Colors.black),
-                                ),
                                 style: TextButton.styleFrom(
                                   elevation: 0,
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: (width <= 550) ? 13 : 17,
                                   ),
+                                ),
+                                child: const Text(
+                                  "SKIP",
+                                  style: TextStyle(color: Colors.black),
                                 ),
                               ),
                               ElevatedButton(
@@ -162,7 +167,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     curve: Curves.easeIn,
                                   );
                                 },
-                                child: const Text("NEXT"),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.black,
                                   shape: RoundedRectangleBorder(
@@ -177,6 +181,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   textStyle: TextStyle(
                                       fontSize: (width <= 550) ? 13 : 17),
                                 ),
+                                child: const Text("NEXT"),
                               ),
                             ],
                           ),

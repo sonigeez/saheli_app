@@ -3,6 +3,11 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:saheli_app/app.dart';
 import 'package:saheli_app/router/app_router.gr.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
+import 'package:provider/provider.dart';
+import 'notifiers/home_screen_provider.dart';
+
+final appRouter = AppRouter();
+
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -14,12 +19,15 @@ void main() async {
 
   FlutterNativeSplash.remove();
 
-  runApp(AppWidget(
+
+
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
+  ], child: AppWidget(
     streamChatClient: streamChatClient,
-  ));
+  )));
 }
 
-final appRouter = AppRouter();
 
 class AppWidget extends StatelessWidget {
   const AppWidget({
@@ -41,8 +49,6 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // routerDelegate: AutoRouterDelegate(),
-      // routeInformationParser: AutoRouteInformationParser(),
     );
   }
 }
