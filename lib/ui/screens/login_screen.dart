@@ -1,5 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:saheli_app/app.dart';
+import 'package:saheli_app/notifiers/user_notifier.dart';
+import 'package:saheli_app/router/app_router.gr.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
           // logo of our app
           Column(
             children: [
@@ -48,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
           // Card
           Expanded(
             child: Card(
@@ -90,30 +96,52 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       // Get otp button
                       ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {}
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            final x = await context.read<UserNotifier>().sendLoginOtp(_textEditingController.text);
+                            if (x) {
+                              context.pushRoute(PinCodeVerificationRoute(phoneNumber: _textEditingController.text));
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(content: Text("something went wrong")));
+                            }
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(size.width * .9, 50), backgroundColor: MyColors.primayColor),
-                        child: Text(
-                          "Get OTP",
-                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
-                        ),
+                        child: Consumer<UserNotifier>(builder: (context, notfier, _) {
+                          return notfier.sendingOtp
+                              ? const CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                                )
+                              : Text(
+                                  "Get OTP",
+                                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
+                                );
+                        }),
                       ),
 
                       // sign up option
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "Don't have an account? ",
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
-                            TextSpan(
-                              text: "Sign Up",
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: MyColors.primayColor),
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () => context.router.popAndPush(const SignupRoute()),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Don't have an account? ",
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
+                              TextSpan(
+                                text: "Sign Up",
+                                onEnter: (event) {
+                                  if (event.down) {
+                                    context.router.popAndPush(const SignupRoute());
+                                  }
+                                },
+                                style: Theme.of(context).textTheme.labelLarge!.copyWith(color: MyColors.primayColor),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

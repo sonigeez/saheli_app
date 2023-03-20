@@ -15,11 +15,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamChannel(
-      channel: channel ??
-          context.streamChatClient.channel(
-            'messaging',
-            id: channelId,
-          ),
+      channel: channel ?? context.streamChatClient.channel('messaging', id: channelId),
       child: Scaffold(
         appBar: const StreamChannelHeader(),
         body: Column(

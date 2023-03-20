@@ -4,13 +4,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:saheli_app/app.dart';
 import 'package:saheli_app/notifiers/home_screen_provider.dart';
+import 'package:saheli_app/notifiers/user_notifier.dart';
 import 'package:saheli_app/router/app_router.gr.dart';
+import 'package:saheli_app/services/auth_services.dart';
+import 'package:saheli_app/services/location_services.dart';
+import 'package:saheli_app/utils/shared_pref.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,15 +25,26 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   GoogleMapController? _mapController;
-  late TextEditingController _controller;
-  late TextEditingController _shortNoteController;
+  late final TextEditingController _controller;
+  late final TextEditingController _shortNoteController;
+  bool switchValue = false;
+  late final ValueNotifier<bool> _availability;
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
   @override
   void initState() {
     super.initState();
+    _availability = ValueNotifier(false);
     _controller = TextEditingController(text: 'Gopal Pura Mod');
     _shortNoteController = TextEditingController();
+
+    context.read<UserNotifier>().connectStreamUser(
+          User(
+            id: SharedPreferencesHelper.storage.getString("userId")!,
+            name: SharedPreferencesHelper.storage.getString("username"),
+          ),
+          context.streamChatClient,
+        );
 
     _requestLocationPermission();
 
@@ -159,8 +174,25 @@ class HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Mark your availability"),
+                      ValueListenableBuilder(
+                          valueListenable: _availability,
+                          builder: (context, svalue, _) {
+                            return Switch(
+                              value: svalue,
+                              onChanged: (value) {
+                                _availability.value = value;
+                                AuthServices.setAvailability(value);
+                              },
+                            );
+                          }),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -216,12 +248,21 @@ class HomePageState extends State<HomePage> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (context.read<HomeScreenProvider>().destinationLocation != null &&
-                        _shortNoteController.text.isNotEmpty) {}
+                        _shortNoteController.text.isNotEmpty) {
+                      // upload your location.
+                      await LocationServices.uploadLocation(context.read<HomeScreenProvider>().currentLocation!);
+                      // upload short note.
+                      await LocationServices.uploadShortNote(_shortNoteController.text);
+                      // find saheli for youself.
+                      context.pushRoute(const NearmeusersRoute());
+                      // jump to next page where everything uploads and happens next.
+                    }
                   },
                   child: const Text('Find Saheli'),
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -246,16 +287,14 @@ class AppDrawer extends StatelessWidget {
               decoration: const BoxDecoration(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  CircleAvatar(radius: 40, backgroundColor: Colors.red),
-                  SizedBox(
-                    height: 10,
-                  ),
+                children: [
+                  const CircleAvatar(radius: 40, backgroundColor: Colors.red),
+                  const SizedBox(height: 10),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Saheli',
-                      style: TextStyle(
+                      SharedPreferencesHelper.storage.getString("name")!,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 20,
                       ),
@@ -271,18 +310,18 @@ class AppDrawer extends StatelessWidget {
               // ...
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
-            onTap: () {
-              // Update the state of the app.
-              // ...
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.settings),
+          //   title: const Text('Settings'),
+          //   onTap: () {
+          //     // Update the state of the app.
+          //     // ...
+          //   },
+          // ),
           ListTile(
             leading: const Icon(Icons.message),
             title: const Text('Messages'),
-            onTap: () {},
+            onTap: () => context.pushRoute(const ChatListScreenRoute()),
           ),
           ListTile(
             leading: const Icon(Icons.emergency),
@@ -293,7 +332,14 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
-            onTap: () {},
+            onTap: () async {
+              await StreamChat.of(context).client.disconnectUser();
+              await SharedPreferencesHelper.storage.clear();
+              context.router.pushAndPopUntil(
+                const LoginRoute(),
+                predicate: (route) => false,
+              );
+            },
           ),
         ],
       ),
