@@ -51,8 +51,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     SizeConfig().init(context);
     double width = SizeConfig.screenW!;
     double height = SizeConfig.screenH!;
-    int currentPageIndex = 0;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -122,9 +120,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               // AppRouter().popAndPush()
-                              print("object");
                               // appRouter.push(const HomeRoute());
-                              context.router.popAndPush(HomeRoute());
+                              context.router.popAndPush(const HomeRoute());
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
