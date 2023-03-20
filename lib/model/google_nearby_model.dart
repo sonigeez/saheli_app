@@ -7,12 +7,10 @@ class GoogleNearbyAPIModel {
     this.results,
   });
   List<Result>? results;
-  factory GoogleNearbyAPIModel.fromJson(Map<String, dynamic> str) =>
-      GoogleNearbyAPIModel.fromMap(str);
+  factory GoogleNearbyAPIModel.fromJson(Map<String, dynamic> str) => GoogleNearbyAPIModel.fromMap(str);
 
   static fromMap(Map<String, dynamic> json) => GoogleNearbyAPIModel(
-        results:
-            List<Result>.from(json["results"].map((x) => Result.fromMap(x))),
+        results: List<Result>.from(json["results"].map((x) => Result.fromMap(x))),
       );
 }
 

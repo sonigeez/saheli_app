@@ -1,7 +1,7 @@
 class NetworkingUrls {
   NetworkingUrls._();
 
-  static const String baseUrl = "https://7fa3-117-250-3-86.in.ngrok.io/";
+  static const String baseUrl = "https://43e0-117-250-3-86.in.ngrok.io/";
   static const String signup = "signup";
   static const String login = "login";
   static const String verifyOtp = "verify";

@@ -11,36 +11,38 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i11;
+import 'package:auto_route/auto_route.dart' as _i13;
 import 'package:auto_route/empty_router_widgets.dart' as _i1;
-import 'package:flutter/material.dart' as _i12;
-import 'package:google_maps_flutter/google_maps_flutter.dart' as _i14;
-import 'package:stream_chat_flutter/stream_chat_flutter.dart' as _i13;
+import 'package:flutter/material.dart' as _i14;
+import 'package:google_maps_flutter/google_maps_flutter.dart' as _i16;
+import 'package:stream_chat_flutter/stream_chat_flutter.dart' as _i15;
 
-import '../screens/destination_selection_screen.dart' as _i4;
-import '../screens/home_page.dart' as _i3;
-import '../screens/live_location_travel.dart' as _i9;
+import '../screens/destination_selection_screen.dart' as _i5;
+import '../screens/home_page.dart' as _i4;
+import '../screens/live_location_travel.dart' as _i11;
 import '../screens/onboarding_screen.dart' as _i2;
-import '../screens/safe_place_screen.dart' as _i10;
-import '../ui/screens/chat_screen.dart' as _i8;
-import '../ui/screens/chats_page.dart' as _i7;
-import '../ui/screens/login_screen.dart' as _i5;
-import '../ui/screens/signup_screen.dart' as _i6;
+import '../screens/safe_place_screen.dart' as _i12;
+import '../ui/screens/chat_screen.dart' as _i10;
+import '../ui/screens/chats_page.dart' as _i9;
+import '../ui/screens/login_screen.dart' as _i6;
+import '../ui/screens/nearby_users_list.dart' as _i7;
+import '../ui/screens/otp_verification_screen.dart' as _i3;
+import '../ui/screens/signup_screen.dart' as _i8;
 
-class AppRouter extends _i11.RootStackRouter {
-  AppRouter([_i12.GlobalKey<_i12.NavigatorState>? navigatorKey])
+class AppRouter extends _i13.RootStackRouter {
+  AppRouter([_i14.GlobalKey<_i14.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i11.PageFactory> pagesMap = {
+  final Map<String, _i13.PageFactory> pagesMap = {
     RootRouter.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
     },
-    OnboardingScreen.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
+    OnboardRoute.name: (routeData) {
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i2.OnboardingScreen(),
       );
@@ -48,7 +50,7 @@ class AppRouter extends _i11.RootStackRouter {
     PinCodeVerificationRoute.name: (routeData) {
       final args = routeData.argsAs<PinCodeVerificationRouteArgs>(
           orElse: () => const PinCodeVerificationRouteArgs());
-      return _i11.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i3.PinCodeVerificationScreen(
           key: args.key,
@@ -57,7 +59,7 @@ class AppRouter extends _i11.RootStackRouter {
       );
     },
     HomeRoute.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i4.HomePage(),
       );
@@ -65,25 +67,31 @@ class AppRouter extends _i11.RootStackRouter {
     DestinationSelectionRoute.name: (routeData) {
       final args = routeData.argsAs<DestinationSelectionRouteArgs>(
           orElse: () => const DestinationSelectionRouteArgs());
-      return _i11.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i5.DestinationSelectionPage(key: args.key),
       );
     },
     LoginRoute.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const _i6.LoginScreen(),
+      );
+    },
+    NearmeusersRoute.name: (routeData) {
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i7.NearbyUsersList(),
       );
     },
     SignupRoute.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i8.SignupScreen(),
       );
     },
     ChatListScreenRoute.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i9.ChatsPage(),
       );
@@ -96,7 +104,7 @@ class AppRouter extends _i11.RootStackRouter {
                 'channelId',
                 "",
               )));
-      return _i11.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.ChatScreen(
           key: args.key,
@@ -107,9 +115,9 @@ class AppRouter extends _i11.RootStackRouter {
     },
     SaheliTrackingRoute.name: (routeData) {
       final args = routeData.argsAs<SaheliTrackingRouteArgs>();
-      return _i11.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i9.SaheliTrackingPage(
+        child: _i11.SaheliTrackingPage(
           key: args.key,
           destinationLocation: args.destinationLocation,
           sourceLocation: args.sourceLocation,
@@ -117,60 +125,74 @@ class AppRouter extends _i11.RootStackRouter {
       );
     },
     RecommendedPlacesRoute.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
+      final args = routeData.argsAs<RecommendedPlacesRouteArgs>();
+      return _i13.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i10.RecommedndePlacesScreen(),
+        child: _i12.RecommedndePlacesScreen(
+          key: args.key,
+          channel: args.channel,
+        ),
       );
     },
   };
 
   @override
-  List<_i11.RouteConfig> get routes => [
-        _i11.RouteConfig(
+  List<_i13.RouteConfig> get routes => [
+        _i13.RouteConfig(
           RootRouter.name,
           path: '/',
           children: [
-            _i11.RouteConfig(
-              OnboardingScreen.name,
-              path: '',
+            _i13.RouteConfig(
+              OnboardRoute.name,
+              path: 'onboarding-screen',
               parent: RootRouter.name,
             ),
-            _i11.RouteConfig(
+            _i13.RouteConfig(
+              PinCodeVerificationRoute.name,
+              path: 'otp-verification',
+              parent: RootRouter.name,
+            ),
+            _i13.RouteConfig(
               HomeRoute.name,
               path: 'home-screen',
               parent: RootRouter.name,
             ),
-            _i11.RouteConfig(
+            _i13.RouteConfig(
               DestinationSelectionRoute.name,
               path: 'destination-selection',
               parent: RootRouter.name,
             ),
-            _i11.RouteConfig(
+            _i13.RouteConfig(
               LoginRoute.name,
               path: 'login',
               parent: RootRouter.name,
             ),
-            _i11.RouteConfig(
+            _i13.RouteConfig(
+              NearmeusersRoute.name,
+              path: 'nearme',
+              parent: RootRouter.name,
+            ),
+            _i13.RouteConfig(
               SignupRoute.name,
               path: 'signup',
               parent: RootRouter.name,
             ),
-            _i11.RouteConfig(
+            _i13.RouteConfig(
               ChatListScreenRoute.name,
               path: 'chat_list',
               parent: RootRouter.name,
             ),
-            _i11.RouteConfig(
+            _i13.RouteConfig(
               ChatScreenRoute.name,
               path: 'chat/:channelId',
               parent: RootRouter.name,
             ),
-            _i11.RouteConfig(
+            _i13.RouteConfig(
               SaheliTrackingRoute.name,
               path: 'saheli-tracking',
               parent: RootRouter.name,
             ),
-            _i11.RouteConfig(
+            _i13.RouteConfig(
               RecommendedPlacesRoute.name,
               path: 'recommended-places',
               parent: RootRouter.name,
@@ -182,8 +204,8 @@ class AppRouter extends _i11.RootStackRouter {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class RootRouter extends _i11.PageRouteInfo<void> {
-  const RootRouter({List<_i11.PageRouteInfo>? children})
+class RootRouter extends _i13.PageRouteInfo<void> {
+  const RootRouter({List<_i13.PageRouteInfo>? children})
       : super(
           RootRouter.name,
           path: '/',
@@ -195,8 +217,8 @@ class RootRouter extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.OnboardingScreen]
-class OnboardingScreen extends _i11.PageRouteInfo<void> {
-  const OnboardingScreen()
+class OnboardRoute extends _i13.PageRouteInfo<void> {
+  const OnboardRoute()
       : super(
           OnboardRoute.name,
           path: 'onboarding-screen',
@@ -208,9 +230,9 @@ class OnboardingScreen extends _i11.PageRouteInfo<void> {
 /// generated route for
 /// [_i3.PinCodeVerificationScreen]
 class PinCodeVerificationRoute
-    extends _i11.PageRouteInfo<PinCodeVerificationRouteArgs> {
+    extends _i13.PageRouteInfo<PinCodeVerificationRouteArgs> {
   PinCodeVerificationRoute({
-    _i12.Key? key,
+    _i14.Key? key,
     String? phoneNumber,
   }) : super(
           PinCodeVerificationRoute.name,
@@ -230,7 +252,7 @@ class PinCodeVerificationRouteArgs {
     this.phoneNumber,
   });
 
-  final _i12.Key? key;
+  final _i14.Key? key;
 
   final String? phoneNumber;
 
@@ -241,8 +263,8 @@ class PinCodeVerificationRouteArgs {
 }
 
 /// generated route for
-/// [_i3.HomePage]
-class HomeRoute extends _i11.PageRouteInfo<void> {
+/// [_i4.HomePage]
+class HomeRoute extends _i13.PageRouteInfo<void> {
   const HomeRoute()
       : super(
           HomeRoute.name,
@@ -255,8 +277,8 @@ class HomeRoute extends _i11.PageRouteInfo<void> {
 /// generated route for
 /// [_i5.DestinationSelectionPage]
 class DestinationSelectionRoute
-    extends _i11.PageRouteInfo<DestinationSelectionRouteArgs> {
-  DestinationSelectionRoute({_i12.Key? key})
+    extends _i13.PageRouteInfo<DestinationSelectionRouteArgs> {
+  DestinationSelectionRoute({_i14.Key? key})
       : super(
           DestinationSelectionRoute.name,
           path: 'destination-selection',
@@ -269,7 +291,7 @@ class DestinationSelectionRoute
 class DestinationSelectionRouteArgs {
   const DestinationSelectionRouteArgs({this.key});
 
-  final _i12.Key? key;
+  final _i14.Key? key;
 
   @override
   String toString() {
@@ -278,8 +300,8 @@ class DestinationSelectionRouteArgs {
 }
 
 /// generated route for
-/// [_i5.LoginScreen]
-class LoginRoute extends _i11.PageRouteInfo<void> {
+/// [_i6.LoginScreen]
+class LoginRoute extends _i13.PageRouteInfo<void> {
   const LoginRoute()
       : super(
           LoginRoute.name,
@@ -290,8 +312,20 @@ class LoginRoute extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.SignupScreen]
-class SignupRoute extends _i11.PageRouteInfo<void> {
+/// [_i7.NearbyUsersList]
+class NearmeusersRoute extends _i13.PageRouteInfo<void> {
+  const NearmeusersRoute()
+      : super(
+          NearmeusersRoute.name,
+          path: 'nearme',
+        );
+
+  static const String name = 'NearmeusersRoute';
+}
+
+/// generated route for
+/// [_i8.SignupScreen]
+class SignupRoute extends _i13.PageRouteInfo<void> {
   const SignupRoute()
       : super(
           SignupRoute.name,
@@ -302,8 +336,8 @@ class SignupRoute extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.ChatsPage]
-class ChatListScreenRoute extends _i11.PageRouteInfo<void> {
+/// [_i9.ChatsPage]
+class ChatListScreenRoute extends _i13.PageRouteInfo<void> {
   const ChatListScreenRoute()
       : super(
           ChatListScreenRoute.name,
@@ -314,12 +348,12 @@ class ChatListScreenRoute extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.ChatScreen]
-class ChatScreenRoute extends _i11.PageRouteInfo<ChatScreenRouteArgs> {
+/// [_i10.ChatScreen]
+class ChatScreenRoute extends _i13.PageRouteInfo<ChatScreenRouteArgs> {
   ChatScreenRoute({
-    _i12.Key? key,
+    _i14.Key? key,
     String channelId = "",
-    _i13.Channel? channel,
+    _i15.Channel? channel,
   }) : super(
           ChatScreenRoute.name,
           path: 'chat/:channelId',
@@ -341,11 +375,11 @@ class ChatScreenRouteArgs {
     this.channel,
   });
 
-  final _i12.Key? key;
+  final _i14.Key? key;
 
   final String channelId;
 
-  final _i13.Channel? channel;
+  final _i15.Channel? channel;
 
   @override
   String toString() {
@@ -354,12 +388,12 @@ class ChatScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i9.SaheliTrackingPage]
-class SaheliTrackingRoute extends _i11.PageRouteInfo<SaheliTrackingRouteArgs> {
+/// [_i11.SaheliTrackingPage]
+class SaheliTrackingRoute extends _i13.PageRouteInfo<SaheliTrackingRouteArgs> {
   SaheliTrackingRoute({
-    _i12.Key? key,
-    required _i14.LatLng destinationLocation,
-    required _i14.LatLng sourceLocation,
+    _i14.Key? key,
+    required _i16.LatLng destinationLocation,
+    required _i16.LatLng sourceLocation,
   }) : super(
           SaheliTrackingRoute.name,
           path: 'saheli-tracking',
@@ -380,11 +414,11 @@ class SaheliTrackingRouteArgs {
     required this.sourceLocation,
   });
 
-  final _i12.Key? key;
+  final _i14.Key? key;
 
-  final _i14.LatLng destinationLocation;
+  final _i16.LatLng destinationLocation;
 
-  final _i14.LatLng sourceLocation;
+  final _i16.LatLng sourceLocation;
 
   @override
   String toString() {
@@ -393,13 +427,36 @@ class SaheliTrackingRouteArgs {
 }
 
 /// generated route for
-/// [_i10.RecommedndePlacesScreen]
-class RecommendedPlacesRoute extends _i11.PageRouteInfo<void> {
-  const RecommendedPlacesRoute()
-      : super(
+/// [_i12.RecommedndePlacesScreen]
+class RecommendedPlacesRoute
+    extends _i13.PageRouteInfo<RecommendedPlacesRouteArgs> {
+  RecommendedPlacesRoute({
+    _i14.Key? key,
+    required _i15.Channel channel,
+  }) : super(
           RecommendedPlacesRoute.name,
           path: 'recommended-places',
+          args: RecommendedPlacesRouteArgs(
+            key: key,
+            channel: channel,
+          ),
         );
 
   static const String name = 'RecommendedPlacesRoute';
+}
+
+class RecommendedPlacesRouteArgs {
+  const RecommendedPlacesRouteArgs({
+    this.key,
+    required this.channel,
+  });
+
+  final _i14.Key? key;
+
+  final _i15.Channel channel;
+
+  @override
+  String toString() {
+    return 'RecommendedPlacesRouteArgs{key: $key, channel: $channel}';
+  }
 }
