@@ -5,7 +5,7 @@ import 'package:saheli_app/model/google_nearby_model.dart';
 class GoogleMapAPIManager {
   Dio dio = Dio();
 
-  Future<GoogleNearbyAPIModel?> getNearbyPlaces() async {
+  Future<GoogleNearbyAPIModel?> getNearbyPlaces(LatLng initial) async {
     GoogleNearbyAPIModel? nearbyPlaces;
     try {
       Response response = await dio.get(
@@ -14,7 +14,7 @@ class GoogleMapAPIManager {
               'Content-Type': 'application/json',
             },
           ),
-          'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBPbqIkJ2zzLtlOW12omt67Puy845O5oBA&location=26.8749%2C75.7684&type=park|hospital|library|bank|cafe|police|restaurant|restaurant|store|landmark|locality&rankby=distance');
+          'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBPbqIkJ2zzLtlOW12omt67Puy845O5oBA&location=${initial.latitude}%2C${initial.longitude}&type=park|hospital|library|bank|cafe|police|restaurant|restaurant|store|landmark|locality&rankby=distance');
       print(response.data);
       nearbyPlaces = GoogleNearbyAPIModel.fromJson(response.data);
       return nearbyPlaces;

@@ -21,7 +21,7 @@ import '../screens/destination_selection_screen.dart' as _i4;
 import '../screens/home_page.dart' as _i3;
 import '../screens/live_location_travel.dart' as _i9;
 import '../screens/onboarding_screen.dart' as _i2;
-import '../screens/recommended_places.dart' as _i10;
+import '../screens/safe_place_screen.dart' as _i10;
 import '../ui/screens/chat_screen.dart' as _i8;
 import '../ui/screens/chats_page.dart' as _i7;
 import '../ui/screens/login_screen.dart' as _i5;

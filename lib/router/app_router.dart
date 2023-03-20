@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:saheli_app/screens/live_location_travel.dart';
-import 'package:saheli_app/screens/recommended_places.dart';
+import 'package:saheli_app/screens/safe_place_screen.dart';
 import 'package:saheli_app/ui/screens/chat_screen.dart';
 import 'package:saheli_app/ui/screens/chats_page.dart';
 import 'package:saheli_app/ui/screens/login_screen.dart';

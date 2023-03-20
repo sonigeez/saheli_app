@@ -4,11 +4,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:saheli_app/app.dart';
 import 'package:saheli_app/notifiers/home_screen_provider.dart';
 import 'package:saheli_app/router/app_router.gr.dart';
 
@@ -144,31 +142,30 @@ class HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                            shape: MaterialStateProperty.all(
+                              const CircleBorder(),
+                            ),
                           ),
-                          child: IconButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.white),
-                              shape: MaterialStateProperty.all(
-                                const CircleBorder(),
-                              ),
-                            ),
-                            onPressed: () {
-                              _key.currentState!.openDrawer();
-                            },
-                            icon: const Icon(
-                              Icons.menu,
-                              color: Colors.grey,
-                            ),
+                          onPressed: () {
+                            _key.currentState!.openDrawer();
+                          },
+                          icon: const Icon(
+                            Icons.menu,
+                            color: Colors.grey,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -272,6 +269,7 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.7,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DrawerHeader(
               decoration: const BoxDecoration(),
@@ -303,6 +301,14 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.how_to_reg_sharp),
+            title: const Text('Self Defence Tutorials'),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () {
@@ -316,8 +322,11 @@ class AppDrawer extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
-            leading: const Icon(Icons.emergency),
-            title: const Text('Emergency'),
+            leading: const Icon(Icons.emergency, color: Colors.red),
+            title: const Text(
+              'Emergency',
+              style: TextStyle(color: Colors.red),
+            ),
             onTap: () {},
           ),
           const Spacer(),

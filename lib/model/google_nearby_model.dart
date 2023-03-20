@@ -1,7 +1,6 @@
 // To parse this JSON data, do
 //
 //     final googleNearbyPlaceModel = googleNearbyPlaceModelFromJson(jsonString);
-import 'dart:convert';
 
 class GoogleNearbyAPIModel {
   GoogleNearbyAPIModel({

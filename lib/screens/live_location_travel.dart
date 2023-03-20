@@ -42,6 +42,7 @@ class _SaheliTrackingPageState extends State<SaheliTrackingPage> {
         desiredAccuracy: LocationAccuracy.high);
 
     await Geolocator.requestPermission();
+    // ignore: use_build_context_synchronously
     Provider.of<SaheliTrackingPageNotifier>(context, listen: false)
         .setCurrentLocation(LatLng(position.latitude, position.longitude));
 
