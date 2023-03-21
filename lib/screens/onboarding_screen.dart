@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:saheli_app/router/app_router.gr.dart';
 import 'package:saheli_app/utils/onboarding_content.dart';
 import 'package:saheli_app/utils/size_config.dart';
@@ -118,9 +119,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ? Padding(
                           padding: const EdgeInsets.all(30),
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               // AppRouter().popAndPush()
                               // appRouter.push(const HomeRoute());
+                              await Geolocator.requestPermission();
+
                               context.router.popAndPush(const LoginRoute());
                             },
                             style: ElevatedButton.styleFrom(
@@ -129,9 +132,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               padding: (width <= 550)
-                                  ? const EdgeInsets.symmetric(horizontal: 100, vertical: 20)
-                                  : EdgeInsets.symmetric(horizontal: width * 0.2, vertical: 25),
-                              textStyle: TextStyle(fontSize: (width <= 550) ? 13 : 17),
+                                  ? const EdgeInsets.symmetric(
+                                      horizontal: 100, vertical: 20)
+                                  : EdgeInsets.symmetric(
+                                      horizontal: width * 0.2, vertical: 25),
+                              textStyle:
+                                  TextStyle(fontSize: (width <= 550) ? 13 : 17),
                             ),
                             child: const Text("START"),
                           ),
@@ -171,9 +177,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   ),
                                   elevation: 0,
                                   padding: (width <= 550)
-                                      ? const EdgeInsets.symmetric(horizontal: 30, vertical: 20)
-                                      : const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
-                                  textStyle: TextStyle(fontSize: (width <= 550) ? 13 : 17),
+                                      ? const EdgeInsets.symmetric(
+                                          horizontal: 30, vertical: 20)
+                                      : const EdgeInsets.symmetric(
+                                          horizontal: 30, vertical: 25),
+                                  textStyle: TextStyle(
+                                      fontSize: (width <= 550) ? 13 : 17),
                                 ),
                                 child: const Text("NEXT"),
                               ),

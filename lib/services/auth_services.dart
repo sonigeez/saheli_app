@@ -20,7 +20,7 @@ class AuthServices {
         data: {
           'firstName': firstName,
           'lastName': lastName,
-          'aadhar': aadharNumber,
+          'aadhaar': aadharNumber,
           'phone': phoneNo,
         },
       );
@@ -28,7 +28,8 @@ class AuthServices {
       debugPrint("error: $e");
     }
 
-    return response != null && response.statusCode.toString().substring(0, 1) == "2";
+    return response != null &&
+        response.statusCode.toString().substring(0, 1) == "2";
   }
 
   static Future<UserModel?> verifyOtp(String otp, String phoneNo) async {
@@ -43,9 +44,12 @@ class AuthServices {
 
     if (response.statusCode.toString().substring(0, 1) == "2") {
       user = UserModel.fromJson(response.data['user']);
-      await SharedPreferencesHelper.storage.setString("authToken", response.data['token']);
-      await SharedPreferencesHelper.storage.setString("username", user.username);
-      await SharedPreferencesHelper.storage.setString("sudoName", user.sudoName);
+      await SharedPreferencesHelper.storage
+          .setString("authToken", response.data['token']);
+      await SharedPreferencesHelper.storage
+          .setString("username", user.username);
+      await SharedPreferencesHelper.storage
+          .setString("sudoName", user.sudoName);
       await SharedPreferencesHelper.storage.setString("name", user.name);
       await SharedPreferencesHelper.storage.setString("userId", user.id);
       SharedPreferencesHelper.storage.setBool("onboarded", true);
@@ -64,7 +68,8 @@ class AuthServices {
     } catch (e) {
       debugPrint(e.toString());
     }
-    return response != null && response.statusCode.toString().substring(0, 1) == "2";
+    return response != null &&
+        response.statusCode.toString().substring(0, 1) == "2";
   }
 
   static Future<bool> setAvailability(bool value) async {
@@ -75,7 +80,8 @@ class AuthServices {
         NetworkingUrls.outside,
         data: {"outside": value},
         options: Options(headers: {
-          "Authorization": "Bearer ${SharedPreferencesHelper.storage.getString("authToken")}",
+          "Authorization":
+              "Bearer ${SharedPreferencesHelper.storage.getString("authToken")}",
         }),
       );
     } catch (e) {
@@ -84,6 +90,7 @@ class AuthServices {
 
     debugPrint("${response?.data}");
 
-    return response != null && response.statusCode.toString().substring(0, 1) == "2";
+    return response != null &&
+        response.statusCode.toString().substring(0, 1) == "2";
   }
 }

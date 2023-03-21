@@ -33,6 +33,9 @@ class _ChatsPageState extends State<ChatsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Chats"),
+      ),
       body: RefreshIndicator(
         onRefresh: _channelListController.refresh,
         child: StreamChannelListView(

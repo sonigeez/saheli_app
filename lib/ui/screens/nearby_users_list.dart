@@ -18,7 +18,7 @@ class _NearbyUsersListState extends State<NearbyUsersList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Users List"),
+        title: const Text("Nearby Saheli's List"),
       ),
       body: FutureBuilder(
         future: LocationServices.getNearMe(),
@@ -67,39 +67,6 @@ class UserWidget extends StatelessWidget {
       onTap: () {
         _createChannel(context);
       },
-      // child: Container(
-      //   decoration: BoxDecoration(
-      //     color: Colors.white,
-      //     borderRadius: BorderRadius.circular(10),
-      //   ),
-      //   margin: const EdgeInsets.all(8),
-      //   height: 100,
-      //   width: double.infinity,
-      //   padding: const EdgeInsets.all(8),
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //     children: [
-      //       Text(
-      //         user.firstname + user.lastname,
-      //         maxLines: 1,
-      //         overflow: TextOverflow.ellipsis,
-      //         style: Theme.of(context).textTheme.bodyMedium,
-      //       ),
-      //       // short note
-      //       Text(
-      //         user.shortDesc,
-      //         maxLines: 3,
-      //         overflow: TextOverflow.ellipsis,
-      //         style: Theme.of(context).textTheme.bodySmall,
-      //       ),
-      //       // distance
-      //       Text(
-      //         "Distance: ${user.distance} Km",
-      //         style: Theme.of(context).textTheme.bodySmall,
-      //       ),
-      //     ],
-      //   ),
-      // ),
       child: Column(
         children: [
           ListTile(

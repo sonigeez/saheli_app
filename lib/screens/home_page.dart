@@ -108,15 +108,13 @@ class HomePageState extends State<HomePage> {
                                       polylineId: PolylineId("test")),
                             },
                             initialCameraPosition: const CameraPosition(
-                                target: LatLng(0, 0), zoom: 13),
+                                target: LatLng(26.9124, 75.7873), zoom: 13),
                             onMapCreated:
                                 (GoogleMapController controller) async {
                               _mapController = controller;
                               final provider =
                                   context.read<HomeScreenProvider>();
-                              if (provider.currentLocation == null) {
-                                await _getCurrentLocation();
-                              }
+                              await _getCurrentLocation();
                             },
                             gestureRecognizers: {
                               Factory<OneSequenceGestureRecognizer>(
@@ -297,23 +295,64 @@ class HomePageState extends State<HomePage> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    height: 50,
                     child: TextField(
                       controller: _shortNoteController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Padding(
+                      decoration: InputDecoration(
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18),
+                          child: InkWell(
+                            onTap: () {
+                              // show dialog
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text("About Short Note"),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: const [
+                                          Text(
+                                              "A short description about your journey"),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                              "e.g. I'm going to the sector 12 market to buy some groceries at ",
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.grey)),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("Ok"),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
+                            child: const Icon(
+                              Icons.info_outline,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        prefixIcon: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 18),
                           child: Icon(
                             Icons.note_add,
                             color: Colors.grey,
                           ),
                         ),
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
                         ),
                         hintText: 'Enter Short Note',
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(6),
                           ),
@@ -350,7 +389,7 @@ class HomePageState extends State<HomePage> {
                     ),
                   ),
                   child: const Padding(
-                    padding: EdgeInsets.all(12.0),
+                    padding: EdgeInsets.all(15.0),
                     child: Text('Find Saheli'),
                   ),
                 ),
