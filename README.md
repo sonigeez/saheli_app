@@ -23,7 +23,7 @@ Backend: Node.js, Express.js
 Database: MongoDB and redis
 
 ## Contribution
-We welcome all contributors who are interested in making this app a reality. If you're interested in contributing, please reach out to us at [email address] or create a pull request with your changes.
+We welcome all contributors who are interested in making this app a reality. If you're interested in contributing, create a pull request with your changes.
 
 
 ## App Flow
